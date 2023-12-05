@@ -1,6 +1,6 @@
 using Day2;
 
-CubeCollection bagContents = new CubeCollection("12 red, 13 green, 14 blue");
+var bagContents = new CubeCollection(12, 14, 13);
 Console.WriteLine(Solution());
 return;
 
@@ -11,5 +11,5 @@ static IEnumerable<CubeGame> ParseInput(IEnumerable<string> lines) => lines.Sele
 int Solution() =>
     ParseInput(ParseLines())
         .Where(game => game.IsPossible(bagContents))
-        .Sum(game => game.id);
+        .Sum(game => game.Id);
  

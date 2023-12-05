@@ -2,13 +2,13 @@ namespace Day2;
 
 public class CubeGame
 {
-    public int id;
+    public int Id;
     private readonly IEnumerable<CubeCollection> _cubeCollections;
 
     public CubeGame(string gameDescription)
     {
         var gameDetails = gameDescription.Split(": ");
-        id = int.Parse(gameDetails[0].Split(" ")[1]);
+        Id = int.Parse(gameDetails[0].Split(" ")[1]);
         _cubeCollections = gameDetails[1].Split("; ").Select(showing => new CubeCollection(showing));
     }
 

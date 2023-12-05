@@ -20,6 +20,15 @@ public record class CubeCollection
         "green" => CubeColor.Green,
         _ => null
     };
+
+    public CubeCollection(int numRed, int numBlue, int numGreen)
+    {
+        _cubeAmounts = (new Dictionary<CubeColor, int>{
+            {CubeColor.Red, numRed},
+            {CubeColor.Blue, numBlue},
+            {CubeColor.Green, numGreen},
+        }).ToImmutableDictionary();
+    }
     
     public CubeCollection(string showing)
     {
