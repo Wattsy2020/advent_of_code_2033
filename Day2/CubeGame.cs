@@ -17,4 +17,7 @@ public class CubeGame
     /// </summary>
     public bool IsPossible(CubeCollection bagContents) =>
         _cubeCollections.All(collection => collection.IsSubset(bagContents));
+
+    public CubeCollection MinimumPossibleCollection() =>
+        _cubeCollections.Aggregate(new CubeCollection(0, 0, 0), CubeCollection.ColorWiseMax);
 }
