@@ -25,6 +25,8 @@ public record class CubeCollection
         _ => null
     };
 
+    private static readonly CubeColor[] Colors = Enum.GetValues<CubeColor>();
+
     private CubeCollection(ImmutableDictionary<CubeColor, int> dict) => _cubeAmounts = dict;
 
     public CubeCollection(int numRed, int numBlue, int numGreen)
@@ -57,14 +59,13 @@ public record class CubeCollection
         return thisAmount <= otherAmount;
     }
 
-    public bool IsSubset(CubeCollection other) => Enum.GetValues<CubeColor>().All(color => HasLessOrEqualColor(color, other));
+    public bool IsSubset(CubeCollection other) => Colors.All(color => HasLessOrEqualColor(color, other));
 
-    private static KeyValuePair<CubeColor, int> MaxColor(KeyValuePair<CubeColor, int>? left,
-        KeyValuePair<CubeColor, int>? right)
-        => new (
-            left?.Key ?? right?.Key ?? throw new ArgumentNullException("At least one should not be null"),
-            Optional.Max(left?.Value, right?.Value) ?? 0);
-            
+    private static int MaxColor(CubeColor color, CubeCollection left, CubeCollection right) =>
+        Optional.Max(left._cubeAmounts.OptGetValue(color), right._cubeAmounts.OptGetValue(color)) ?? 0;
+    
     public static CubeCollection ColorWiseMax(CubeCollection left, CubeCollection right) =>
-        new(left._cubeAmounts.ZipLongest(right._cubeAmounts, MaxColor).ToImmutableDictionary());
+        new(Colors
+            .Select(color => new KeyValuePair<CubeColor, int>(color, MaxColor(color, left, right))
+            ).ToImmutableDictionary());
 }
