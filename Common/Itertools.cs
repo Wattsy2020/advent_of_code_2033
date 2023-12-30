@@ -21,14 +21,16 @@ public static class Itertools
         where T1 : struct
         where T2 : struct
     {
-        using var firstEnum = first.GetEnumerator();
-        using var secondEnum = second.GetEnumerator();
-        var firstHasItem = false;
-        var secondHasItem = false;
-        while ((firstHasItem = firstEnum.MoveNext()) || (secondHasItem = secondEnum.MoveNext()))
+        using var firstEnumerator = first.GetEnumerator();
+        using var secondEnumerator = second.GetEnumerator();
+        while (true)
         {
-            T1? firstItem = firstHasItem ? firstEnum.Current : null;
-            T2? secondItem = secondHasItem ? secondEnum.Current : null;
+            var firstHasItem = firstEnumerator.MoveNext();
+            var secondHasItem = secondEnumerator.MoveNext();
+            if (!firstHasItem && !secondHasItem) yield break;
+
+            T1? firstItem = firstHasItem ? firstEnumerator.Current : null;
+            T2? secondItem = secondHasItem ? secondEnumerator.Current : null;
             yield return combiner(firstItem, secondItem);
         }
     }
