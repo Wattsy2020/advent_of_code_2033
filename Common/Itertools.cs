@@ -2,6 +2,15 @@ namespace Common;
 
 public static class Itertools
 {
+    public static IEnumerable<int> Range(int start = 0)
+    {
+        for (int i = start; true; i++)
+            yield return i;
+        // ReSharper disable once IteratorNeverReturns (this is meant to be an infinite iterator)
+    }
+
+    public static IEnumerable<(int, T)> Enumerate<T>(this IEnumerable<T> enumerable) => Range().Zip(enumerable);
+
     public static IEnumerable<TResult> ZipLongest<T1, T2, TResult>(
         this IEnumerable<T1> first,
         IEnumerable<T2> second,
