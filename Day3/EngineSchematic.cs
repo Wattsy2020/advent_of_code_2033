@@ -52,7 +52,7 @@ public class EngineSchematic
         cells.Clear();
     }
 
-    private IEnumerable<(int, int)> AdjacentCells((int, int) cell)
+    private static IEnumerable<(int, int)> AdjacentCells((int, int) cell)
     {
         // row above
         yield return (cell.Item1 - 1, cell.Item2 - 1);
@@ -72,12 +72,21 @@ public class EngineSchematic
 
     private void UpdatePartNumbers()
     {
-        foreach (var cell in Symbols.SelectMany(symbol => AdjacentCells(symbol.Cell)))
+        foreach (var symbol in Symbols)
         {
-            if (_partGrid.TryGetValue(cell, out var part) && part is Number num)
-                num.IsPartNumber = true;
+            foreach (var cell in AdjacentCells(symbol.Cell))
+            {
+                if (_partGrid.TryGetValue(cell, out var part) && part is Number num)
+                {
+                    num.IsPartNumber = true;
+                    // hashing based on referential equality is desired, we don't want to add the same number twice
+                    symbol.AdjacentNumbers.Add(num);
+                }
+            }
         }
     }
 
     public int Solution1() => Numbers.Where(num => num.IsPartNumber).Sum(num => num.Value);
+
+    public int Solution2() => Symbols.Where(symbol => symbol.IsGear).Sum(symbol => symbol.GearRatio);
 }
