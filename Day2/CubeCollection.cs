@@ -14,9 +14,9 @@ public record class CubeCollection
 {
     private readonly ImmutableDictionary<CubeColor, int> _cubeAmounts;
 
-    public int Power => 
+    public int Power =>
         _cubeAmounts.Aggregate(1, (product, cubeAmount) => product * cubeAmount.Value);
-    
+
     private static CubeColor? ParseColor(string color) => color.ToLower() switch
     {
         "red" => CubeColor.Red,
@@ -31,13 +31,14 @@ public record class CubeCollection
 
     public CubeCollection(int numRed, int numBlue, int numGreen)
     {
-        _cubeAmounts = (new Dictionary<CubeColor, int>{
-            {CubeColor.Red, numRed},
-            {CubeColor.Blue, numBlue},
-            {CubeColor.Green, numGreen},
+        _cubeAmounts = (new Dictionary<CubeColor, int>
+        {
+            { CubeColor.Red, numRed },
+            { CubeColor.Blue, numBlue },
+            { CubeColor.Green, numGreen },
         }).ToImmutableDictionary();
     }
-    
+
     public CubeCollection(string showing)
     {
         var cubeAmountsBuilder = ImmutableDictionary.CreateBuilder<CubeColor, int>();
@@ -47,6 +48,7 @@ public record class CubeCollection
             var cubeColor = ParseColor(cubeString[1])!.Value;
             cubeAmountsBuilder[cubeColor] = cubeAmount;
         }
+
         _cubeAmounts = cubeAmountsBuilder.ToImmutable();
     }
 
@@ -63,7 +65,7 @@ public record class CubeCollection
 
     private static int MaxColor(CubeColor color, CubeCollection left, CubeCollection right) =>
         Optional.Max(left._cubeAmounts.OptGetValue(color), right._cubeAmounts.OptGetValue(color)) ?? 0;
-    
+
     public static CubeCollection ColorWiseMax(CubeCollection left, CubeCollection right) =>
         new(Colors
             .Select(color => new KeyValuePair<CubeColor, int>(color, MaxColor(color, left, right))

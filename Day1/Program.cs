@@ -21,7 +21,7 @@ static int ConcatDigits(int digit1, int digit2) => digit1 * 10 + digit2;
 
 int? FindDigit(string line, int index)
 {
-    if (int.TryParse(line[index..(index+1)], out int result))
+    if (int.TryParse(line[index..(index + 1)], out int result))
         return result;
     int maxLength = Math.Min(maxDigitLength, line.Length - index);
     for (int i = minDigitLength; i <= maxLength; i++)

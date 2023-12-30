@@ -4,10 +4,10 @@ public static class Itertools
 {
     public static IEnumerable<TResult> ZipLongest<T1, T2, TResult>(
         this IEnumerable<T1> first,
-        IEnumerable<T2> second, 
+        IEnumerable<T2> second,
         Func<T1?, T2?, TResult> combiner)
-        where T1: struct
-        where T2: struct
+        where T1 : struct
+        where T2 : struct
     {
         using var firstEnum = first.GetEnumerator();
         using var secondEnum = second.GetEnumerator();

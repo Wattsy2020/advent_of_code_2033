@@ -2,7 +2,7 @@ namespace Day2;
 
 public class CubeGame
 {
-    public int Id;
+    public readonly int Id;
     private readonly IEnumerable<CubeCollection> _cubeCollections;
 
     public CubeGame(string gameDescription)

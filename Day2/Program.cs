@@ -18,4 +18,3 @@ int Part2Solution() =>
     ParseInput(ParseLines())
         .Select(game => game.MinimumPossibleCollection())
         .Sum(game => game.Power);
- 
