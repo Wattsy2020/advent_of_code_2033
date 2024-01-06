@@ -38,7 +38,7 @@ public class Card
         _cardNumbers = ReadNumbers(cards[1]).ToArray();
     }
 
-    private int NumWinningCards => _cardNumbers.Where(_winningNumbers.Contains).Count();
+    public int NumWinningCards => _cardNumbers.Where(_winningNumbers.Contains).Count();
 
     public int Points => (NumWinningCards is var n and > 0) ? (int)Math.Pow(2, n - 1) : 0;
 

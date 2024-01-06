@@ -14,5 +14,5 @@ public static class Optional
 
     public static TValue? OptGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
         where TValue : struct =>
-        (dict.TryGetValue(key, out var result)) ? result : null;
+        dict.TryGetValue(key, out var result) ? result : null;
 }
