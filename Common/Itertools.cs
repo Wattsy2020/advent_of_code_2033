@@ -2,6 +2,9 @@ namespace Common;
 
 public static class Itertools
 {
+    public static string AsString<T>(this IEnumerable<T> enumerable)
+        => string.Join(" ", enumerable.Select(x => x?.ToString() ?? "null"));
+
     public static int Product<T>(this IEnumerable<T> enumerable, Func<T, int> selector)
         => enumerable.Aggregate(1, (product, value) => product * selector(value));
 
