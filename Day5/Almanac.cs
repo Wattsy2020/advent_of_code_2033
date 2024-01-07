@@ -2,20 +2,29 @@ namespace Day5;
 
 public class Almanac
 {
-    private readonly long[] _seeds;
+    private readonly Range[] _seeds;
     private readonly ItemMap[] _maps;
 
     public Almanac(string fileContents)
     {
         var sections = fileContents.Split("\n\n");
-        _seeds = sections[0].Split(" ").Skip(1).Select(long.Parse).ToArray();
+        _seeds = sections[0]
+            .Split(" ")
+            .Skip(1) // skip the "seeds: " label
+            .Select(long.Parse)
+            .Chunk(2)
+            .Select(nums => Range.FromPair(nums[0], nums[1]))
+            .ToArray();
         _maps = sections.Skip(1).Select(section => new ItemMap(section)).ToArray();
     }
 
-    // convert a seed through all the maps
-    private long ConvertToDest(long seed) => _maps.Aggregate(seed, (source, itemMap) => itemMap.ConvertToDest(source));
+    // function that converts the entire array of seeds to the next stage
+    // TODO: then consolidates the overlapping ranges
+    private static IEnumerable<Range> ConvertRanges(IEnumerable<Range> ranges, ItemMap map) =>
+        ranges.SelectMany(map.ConvertToDest);
 
-    public IEnumerable<long> Destinations => _seeds.Select(ConvertToDest);
+    // convert the seeds through all the maps
+    public IEnumerable<Range> FinalDestinations => _maps.Aggregate(_seeds.AsEnumerable(), ConvertRanges);
 
-    public long Solution1() => Destinations.Min();
+    public long Solution2() => FinalDestinations.Min(range => range.Start);
 }

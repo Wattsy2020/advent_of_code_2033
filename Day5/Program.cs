@@ -1,7 +1,6 @@
 ﻿using Common;
 using Day5;
 
-string fileContents = File.ReadAllText("../../../../puzzleinput/day5.txt");
+string fileContents = File.ReadAllText(FileSystem.PuzzleInputPath(5));
 var almanac = new Almanac(fileContents);
-Console.WriteLine(almanac.Destinations.AsString());
-Console.WriteLine(almanac.Solution1());
+Console.WriteLine(almanac.Solution2());
