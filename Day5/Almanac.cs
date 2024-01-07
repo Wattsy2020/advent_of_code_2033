@@ -18,10 +18,36 @@ public class Almanac
         _maps = sections.Skip(1).Select(section => new ItemMap(section)).ToArray();
     }
 
+    // Consolidate any overlapping ranges
+    private static IEnumerable<Range> MergeRanges(IEnumerable<Range> ranges)
+    {
+        Range? prevRange = null;
+        foreach (var range in ranges.OrderBy(range => range.Start))
+        {
+            if (prevRange is null)
+            {
+                prevRange = range;
+                continue;
+            }
+
+            // if overlapping, then merge
+            if (range.Start <= prevRange.End)
+            {
+                prevRange = prevRange with { End = Math.Max(prevRange.End, range.End) };
+                continue;
+            }
+
+            yield return prevRange;
+            prevRange = range;
+        }
+
+        if (prevRange is not null)
+            yield return prevRange;
+    }
+
     // function that converts the entire array of seeds to the next stage
-    // TODO: then consolidates the overlapping ranges
     private static IEnumerable<Range> ConvertRanges(IEnumerable<Range> ranges, ItemMap map) =>
-        ranges.SelectMany(map.ConvertToDest);
+        MergeRanges(ranges.SelectMany(map.ConvertToDest));
 
     // convert the seeds through all the maps
     public IEnumerable<Range> FinalDestinations => _maps.Aggregate(_seeds.AsEnumerable(), ConvertRanges);
