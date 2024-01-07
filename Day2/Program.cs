@@ -1,3 +1,4 @@
+using Common;
 using Day2;
 
 var bagContents = new CubeCollection(12, 14, 13);
@@ -5,7 +6,7 @@ Console.WriteLine(Part1Solution());
 Console.WriteLine(Part2Solution());
 return;
 
-static IEnumerable<string> ParseLines() => File.ReadLines("../puzzleinput/day2.txt");
+static IEnumerable<string> ParseLines() => File.ReadLines(FileSystem.PuzzleInputPath(2));
 
 static IEnumerable<CubeGame> ParseInput(IEnumerable<string> lines) => lines.Select(line => new CubeGame(line));
 

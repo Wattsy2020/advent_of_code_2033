@@ -1,3 +1,5 @@
+using Common;
+
 Dictionary<string, int> digitMapping = new()
 {
     { "one", 1 },
@@ -15,7 +17,7 @@ const int maxDigitLength = 5;
 Console.WriteLine(Solution());
 return;
 
-static IEnumerable<string> ReadInput() => File.ReadLines("../puzzleinput/day1.txt");
+static IEnumerable<string> ReadInput() => File.ReadLines(FileSystem.PuzzleInputPath(1));
 
 static int ConcatDigits(int digit1, int digit2) => digit1 * 10 + digit2;
 

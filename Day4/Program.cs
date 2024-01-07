@@ -1,10 +1,11 @@
-﻿using Day4;
+﻿using Common;
+using Day4;
 
 Console.WriteLine(Solution1());
 Console.WriteLine(Solution2());
 return;
 
-static IEnumerable<string> ReadLines() => File.ReadLines("../../../../puzzleinput/day4.txt");
+static IEnumerable<string> ReadLines() => File.ReadLines(FileSystem.PuzzleInputPath(4));
 
 static IEnumerable<Card> ParseLines() => ReadLines().Select(line => new Card(line));
 
