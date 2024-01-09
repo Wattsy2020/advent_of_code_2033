@@ -11,6 +11,9 @@ public static class Itertools
     public static int Product<T>(this IEnumerable<T> enumerable, Func<T, int> selector) =>
         enumerable.Aggregate(1, (product, value) => product * selector(value));
 
+    public static long Product<T>(this IEnumerable<T> enumerable, Func<T, long> selector) =>
+        enumerable.Aggregate(1L, (product, value) => product * selector(value));
+
     public static IEnumerable<int> Range(int start = 0)
     {
         for (int i = start; true; i++)

@@ -18,10 +18,13 @@ public class RaceDocument
             .Zip(raceRecords)
             .Select(tuple => new Race(tuple.First, tuple.Second))
             .ToArray();
-        _combinedRace = new Race(MathUtils.ConcatInts(raceTimes), MathUtils.ConcatInts(raceRecords));
+
+        var raceTime = MathUtils.ConcatLongs(raceTimes.Select(x => (long)x));
+        var raceRecord = MathUtils.ConcatLongs(raceRecords.Select(x => (long)x));
+        _combinedRace = new Race(raceTime, raceRecord);
     }
 
-    public int Solution1() => _races.Product(race => race.NumWinningWays());
+    public long Solution1() => _races.Product(race => race.NumWinningWays());
 
-    public int Solution2() => _combinedRace.NumWinningWays();
+    public long Solution2() => _combinedRace.NumWinningWays();
 }
