@@ -31,13 +31,15 @@ public class Hand : IComparable<Hand>
         private static int CardValue(char name) => name switch
         {
             _ when char.IsDigit(name) => int.Parse(name.ToString()),
+            'J' => 1, // j represents joker now
             'T' => 10,
-            'J' => 11,
-            'Q' => 12,
-            'K' => 13,
-            'A' => 14,
+            'Q' => 11,
+            'K' => 12,
+            'A' => 13,
             _ => throw new ArgumentException($"Cannot convert {name} to card")
         };
+
+        public bool IsWildcard => Name == 'J';
     }
 
     private readonly HandType _type;
@@ -54,22 +56,27 @@ public class Hand : IComparable<Hand>
 
     private static HandType CalcHandType(Card[] cards)
     {
+        var numJokers = cards.Count(card => card.IsWildcard);
+        if (numJokers == 5)
+            return HandType.FiveOfAKind;
+
         var cardCounts = cards
+            .Where(card => !card.IsWildcard) // filter out jokers, they'll always be added to other cards
             .GroupBy(card => card.Value)
             .Select(group => group.Count())
             .OrderDescending()
             .ToArray();
-        if (cardCounts[0] == 5)
+        if (cardCounts[0] + numJokers == 5)
             return HandType.FiveOfAKind;
-        if (cardCounts[0] == 4)
+        if (cardCounts[0] + numJokers == 4)
             return HandType.FourOfAKind;
-        if (cardCounts[0] == 3 && cardCounts[1] == 2)
+        if (cardCounts[0] + numJokers == 3 && cardCounts[1] == 2)
             return HandType.FullHouse;
-        if (cardCounts[0] == 3)
+        if (cardCounts[0] + numJokers == 3)
             return HandType.ThreeOfAKind;
-        if (cardCounts[0] == 2 && cardCounts[1] == 2)
+        if (cardCounts[0] + numJokers == 2 && cardCounts[1] == 2) // this is only possible if there aren't any jokers
             return HandType.TwoPairs;
-        if (cardCounts[0] == 2)
+        if (cardCounts[0] + numJokers == 2)
             return HandType.OnePair;
         return HandType.HighCard;
     }

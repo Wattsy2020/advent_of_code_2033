@@ -27,7 +27,7 @@ public class HandCollection
             .Select(parts => $"{parts.Item1} {parts.Item2}")
             .AsString("\n");
 
-    public int Solution1() =>
+    public int Solution() =>
         _hands
             .Zip(_bids)
             .OrderBy(handBids => handBids.First)
