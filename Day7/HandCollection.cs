@@ -23,6 +23,14 @@ public class HandCollection
 
     public override string ToString() =>
         _hands
-            .Zip(_bids).Select(parts => $"{parts.Item1} {parts.Item2}")
+            .Zip(_bids)
+            .Select(parts => $"{parts.Item1} {parts.Item2}")
             .AsString("\n");
+
+    public int Solution1() =>
+        _hands
+            .Zip(_bids)
+            .OrderBy(handBids => handBids.First)
+            .Select((handBids, rank) => handBids.Second * (rank + 1))
+            .Sum();
 }

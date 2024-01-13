@@ -1,6 +1,6 @@
 namespace Day7;
 
-public class Hand
+public class Hand : IComparable<Hand>
 {
     /// <summary>
     /// The types of hands
@@ -74,7 +74,16 @@ public class Hand
         return HandType.HighCard;
     }
 
-    public override string ToString() => $"{_type} {new string(_cards.Select(card => card.Name).ToArray())}";
+    public int CompareTo(Hand? other)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+        if (_type != other._type)
+            return _type.CompareTo(other._type);
+        foreach (var (card, otherCard) in _cards.Zip(other._cards))
+            if (card.Value != otherCard.Value)
+                return card.Value.CompareTo(otherCard.Value);
+        return 0; // all cards are equal
+    }
 
-    // TODO: logic for comparing hands
+    public override string ToString() => $"{_type} {new string(_cards.Select(card => card.Name).ToArray())}";
 }
