@@ -2,8 +2,8 @@ namespace Common;
 
 public static class Itertools
 {
-    public static string AsString<T>(this IEnumerable<T> enumerable) =>
-        string.Join(" ", enumerable.Select(x => x?.ToString() ?? "null"));
+    public static string AsString<T>(this IEnumerable<T> enumerable, string separator = " ") =>
+        string.Join(separator, enumerable.Select(x => x?.ToString() ?? "null"));
 
     public static int Product(this IEnumerable<int> enumerable) =>
         enumerable.Aggregate(1, (product, value) => product * value);
@@ -42,5 +42,18 @@ public static class Itertools
             T2? secondItem = secondHasItem ? secondEnumerator.Current : null;
             yield return combiner(firstItem, secondItem);
         }
+    }
+
+    public static (List<T1>, List<T2>) Unpack<T1, T2>(this IEnumerable<(T1, T2)> enumerable)
+    {
+        List<T1> result1 = new();
+        List<T2> result2 = new();
+        foreach (var (item1, item2) in enumerable)
+        {
+            result1.Add(item1);
+            result2.Add(item2);
+        }
+
+        return (result1, result2);
     }
 }
