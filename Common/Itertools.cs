@@ -21,6 +21,13 @@ public static class Itertools
         // ReSharper disable once IteratorNeverReturns (this is meant to be an infinite iterator)
     }
 
+    public static IEnumerable<T> Cycle<T>(this IEnumerable<T> enumerable)
+    {
+        while (true)
+            foreach (var element in enumerable)
+                yield return element;
+    }
+
     public static IEnumerable<(int, T)> Enumerate<T>(this IEnumerable<T> enumerable) => Range().Zip(enumerable);
 
     public static IEnumerable<TResult> ZipLongest<T1, T2, TResult>(
