@@ -12,4 +12,6 @@ public class OasisReport
     }
 
     public long Solution1() => _reports.Sum(report => report.GetNextValue());
+
+    public long Solution2() => _reports.Sum(report => report.GetPreHistoryValue());
 }

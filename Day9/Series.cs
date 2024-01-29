@@ -21,4 +21,11 @@ public class Series
             return 0;
         return _series[^1] + GetDelta().GetNextValue();
     }
+
+    public long GetPreHistoryValue()
+    {
+        if (_series.All(x => x == 0))
+            return 0;
+        return _series[0] - GetDelta().GetPreHistoryValue();
+    }
 }

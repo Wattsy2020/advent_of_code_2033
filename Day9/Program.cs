@@ -3,6 +3,7 @@
 var contents = File.ReadLines(FileSystem.PuzzleInputPath(9));
 var report = new OasisReport(contents);
 Console.WriteLine(report.Solution1());
+Console.WriteLine(report.Solution2());
 
 // copy paste while developing on .NET6 machine
 internal static class FileSystem
