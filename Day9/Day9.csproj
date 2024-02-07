@@ -2,15 +2,15 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <PuzzleInputFolder>/Users/liam.watts/RiderProjects/AdventOfCode/puzzleinput</PuzzleInputFolder>
+        <PuzzleInputFolder>/Users/liam/code/advent_of_code_2033/puzzleinput</PuzzleInputFolder>
         <DayNumber>9</DayNumber>
     </PropertyGroup>
-    
+
     <Target Name="copyPuzzleInput" BeforeTargets="build">
-        <Copy SourceFiles="$(PuzzleInputFolder)/day$(DayNumber).txt" DestinationFolder="$(MSBuildProjectDirectory)/bin/Debug/net6.0" />
+        <Copy SourceFiles="$(PuzzleInputFolder)/day$(DayNumber).txt" DestinationFolder="$(MSBuildProjectDirectory)/bin/Debug/net8.0"/>
     </Target>
 
 </Project>

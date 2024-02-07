@@ -1,15 +1,7 @@
 ﻿using Day9;
 
-var contents = File.ReadLines(FileSystem.PuzzleInputPath(9));
+var puzzleInputPath = Path.Combine(AppContext.BaseDirectory, $"day9.txt");
+var contents = File.ReadLines(puzzleInputPath);
 var report = new OasisReport(contents);
 Console.WriteLine(report.Solution1());
 Console.WriteLine(report.Solution2());
-
-// copy paste while developing on .NET6 machine
-internal static class FileSystem
-{
-    // the build process copies the puzzle inputs here
-    private static readonly string PuzzleInputDirectory = AppContext.BaseDirectory;
-
-    public static string PuzzleInputPath(int dayNumber) => Path.Combine(PuzzleInputDirectory, $"day{dayNumber}.txt");
-}
